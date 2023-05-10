@@ -7,8 +7,11 @@ import java.io.IOException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import com.devpredator.projectjsf.dto.UsuarioDTO;
 
 /**
  * @author Fernando Martinez Z
@@ -20,7 +23,24 @@ public class LoginController {
 	private String usuario;
 	private String password;
 	
+	
+	/**
+	 * Bean que mantiene la informacion de la sesion
+	 */
+	@ManagedProperty("#{sessionController}")
+	private SessionController sesionController;
+	
+	
+	
+	
+	
 
+	public SessionController getSesionController() {
+		return sesionController;
+	}
+	public void setSesionController(SessionController sesionController) {
+		this.sesionController = sesionController;
+	}
 	/**
 	 * Metodo que nos va permitir entrar a la pantalla principal del sistema
 	 */
@@ -30,6 +50,10 @@ public class LoginController {
 		if(usuario.equals("Fernando") && password.equals("12345"))
 		{
 			try {
+				UsuarioDTO usuarioDTO = new UsuarioDTO();
+				usuarioDTO.setUsuario(usuario);
+				usuarioDTO.setPassword(password);
+				this.sesionController.setUsuarioDTO(usuarioDTO);
 				this.redireccionar("principal.xhtml");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
